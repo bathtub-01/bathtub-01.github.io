@@ -1,3 +1,19 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'Yukang Xie'
+
+[menus]
+  [[menus.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Technical Blog'
+    pageRef = '/technical'
+    weight = 20
+
+  [[menus.main]]
+    name = 'General Posts'
+    pageRef = '/posts'
+    weight = 30
