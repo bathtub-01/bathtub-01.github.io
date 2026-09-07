@@ -55,6 +55,14 @@ jobs:
             --baseURL "${{ steps.pages.outputs.base_url }}/" \
             --cacheDir "${{ runner.temp }}/hugo_cache"
 
+      - name: Check image styles
+        run: |
+          echo "=== Image classes in generated HTML ==="
+          grep -R 'class="img-' public --include='*.html' || true
+
+          echo "=== Image width CSS ==="
+          grep -R '.img-60' public/css || true
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
