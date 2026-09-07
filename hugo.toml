@@ -17,3 +17,8 @@ title = 'Yukang Xie'
     name = 'General Posts'
     pageRef = '/posts'
     weight = 30
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    style = 'github'

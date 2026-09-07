@@ -1,0 +1,5 @@
+{{ $opts := dict "targetPath" "css/highlight.css" }}
+
+{{ with css.ChromaStyles $opts }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}">
+{{ end }}

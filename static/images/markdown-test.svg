@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="800"
+     height="400"
+     viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#eeeeee"/>
+  <line x1="0" y1="0" x2="800" y2="400"
+        stroke="#cccccc" stroke-width="2"/>
+  <line x1="800" y1="0" x2="0" y2="400"
+        stroke="#cccccc" stroke-width="2"/>
+  <text x="400"
+        y="200"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="sans-serif"
+        font-size="24"
+        fill="#555555">
+    Image rendering test
+  </text>
+</svg>
