@@ -5,7 +5,25 @@
   <title>{{ site.Title }}</title>
 {{ else }}
   <title>{{ .Title }} | {{ site.Title }}</title>
-{{ end }}
+  {{ end }}
+
+{{ $description := or .Description site.Params.description }}
+
+<meta name="description" content="{{ $description }}">
+
+<link rel="canonical" href="{{ .Permalink }}">
+
+<meta property="og:title"
+      content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+
+<meta property="og:description"
+      content="{{ $description }}">
+
+<meta property="og:url"
+      content="{{ .Permalink }}">
+
+<meta property="og:type"
+      content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 
 
 {{ with resources.Get "css/main.css" }}
@@ -25,3 +43,9 @@
     integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB"
     crossorigin="anonymous">
 {{ end }}
+
+{{ with .OutputFormats.Get "rss" }}
+  {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+  {{ end }}
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">

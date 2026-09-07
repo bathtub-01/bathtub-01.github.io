@@ -1,5 +1,6 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
+enableRobotsTXT = true
 title = 'Yukang Xie'
 
 [menus]
@@ -31,3 +32,6 @@ title = 'Yukang Xie'
         [markup.goldmark.extensions.passthrough.delimiters]
           block = [['\[', '\]'], ['$$', '$$']]
           inline = [['\(', '\)']]
+
+[params]
+  description = 'Personal website of Yukang Xie.'
