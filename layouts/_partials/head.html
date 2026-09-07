@@ -11,7 +11,7 @@
 
 <meta name="description" content="{{ $description }}">
 
-<link rel="canonical" href="{{ .Permalink }}">
+<link rel="canonical" href="{{ .Permalink }}"> 
 
 <meta property="og:title"
       content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
@@ -48,4 +48,4 @@
   {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
   {{ end }}
 
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">

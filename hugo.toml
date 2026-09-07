@@ -35,3 +35,7 @@ title = 'Yukang Xie'
 
 [params]
   description = 'Personal website of Yukang Xie.'
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
