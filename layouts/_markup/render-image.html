@@ -1,0 +1,30 @@
+{{- $src := .Destination -}}
+{{- $alt := .Text -}}
+
+{{- with .Page.Resources.Get $src }}
+
+  {{- $image := . -}}
+
+  {{- if reflect.IsImageResourceProcessable . }}
+    {{- if gt .Width 1600 }}
+      {{- $image = .Resize "1600x" }}
+    {{- end }}
+  {{- end }}
+
+  <img
+    src="{{ $image.RelPermalink }}"
+    {{- if reflect.IsImageResourceWithMeta $image }}
+      width="{{ $image.Width }}"
+      height="{{ $image.Height }}"
+    {{- end }}
+    loading="lazy"
+    alt="{{ $alt }}">
+
+{{- else }}
+
+  <img
+    src="{{ $src | safeURL }}"
+    loading="lazy"
+    alt="{{ $alt }}">
+
+{{- end }}

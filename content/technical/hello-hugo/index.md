@@ -8,3 +8,4 @@ This is my first technical post.
 ## A section
 
 Eventually this page will contain code, mathematics, figures, and technical notes.
+

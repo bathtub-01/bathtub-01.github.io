@@ -109,7 +109,7 @@ Below.
 
 ## Image
 
-![Markdown rendering test](/images/markdown-test.svg)
+![Markdown rendering test](markdown-test.svg)
 
 ## Long paragraph
 

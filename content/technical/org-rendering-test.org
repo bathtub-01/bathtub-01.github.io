@@ -62,6 +62,8 @@ Org mode supports footnotes.[fn:1]
 
 * Mathematics
 
+This would not work for now.
+
 Inline math:
 
 \(E = mc^2\)
