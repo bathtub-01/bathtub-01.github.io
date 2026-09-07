@@ -6,3 +6,10 @@
 {{ else }}
   <title>{{ .Title }} | {{ site.Title }}</title>
 {{ end }}
+
+
+{{ with resources.Get "css/main.css" }}
+  {{ with . | css.Build }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{ end }}
+{{ end }}

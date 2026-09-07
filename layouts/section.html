@@ -3,10 +3,13 @@
 
   {{ .Content }}
 
-  <ul>
-    {{ range .Pages }}
+  <ul class="post-list">
+    {{ range .Pages.ByDate.Reverse }}
       <li>
         <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+        {{ with .Date }}
+          <span class="post-date">{{ .Format "2006-01-02" }}</span>
+        {{ end }}
       </li>
     {{ end }}
   </ul>
