@@ -114,3 +114,66 @@ Below.
 ## Long paragraph
 
 A well-designed technical website should remain readable even when a paragraph becomes fairly long. The purpose of this paragraph is to make it easier to judge text width, line height, visual rhythm, and the relationship between consecutive lines of prose. If reading this feels comfortable rather than cramped or excessively wide, the basic typography is probably working.
+
+## Mathematics
+
+Inline mathematics should appear naturally inside a sentence.
+For example, \(E = mc^2\) is Einstein's mass-energy relation.
+
+Another inline expression is
+\(\operatorname{Var}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2\).
+
+### Display mathematics
+
+A simple equation:
+
+\[
+e^{i\pi} + 1 = 0
+\]
+
+A summation:
+
+\[
+\begin{aligned}
+\sum_{n=1}^{\infty} \frac{1}{n^2}
+  &= \frac{\pi^2}{6}
+\end{aligned}
+\]
+
+A matrix:
+
+\[
+A =
+\begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\]
+
+An aligned derivation:
+
+\[
+\begin{aligned}
+(a+b)^2
+  &= (a+b)(a+b) \\
+  &= a^2 + ab + ba + b^2 \\
+  &= a^2 + 2ab + b^2
+\end{aligned}
+\]
+
+A more technical expression:
+
+\[
+\begin{aligned}
+p(\theta \mid x)
+  &=
+  \frac{
+    p(x \mid \theta)p(\theta)
+  }{
+    \int p(x \mid \theta')p(\theta')\,d\theta'
+  }
+\end{aligned}
+\]
+
+Dollar signs in ordinary text should remain ordinary:
+$10, $HOME, and USD $50.

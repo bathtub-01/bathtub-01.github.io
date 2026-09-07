@@ -1,0 +1,80 @@
+#+TITLE: Org Rendering Test
+#+DATE: 2026-09-07
+#+DRAFT: true
+
+This page tests Hugo's native Org-mode support.
+
+* Text
+
+This is *bold*, /italic/, _underlined_, and =inline code=.
+
+Here is a link to [[https://gohugo.io/][Hugo]].
+
+* Lists
+
+- First item
+- Second item
+  - Nested item
+  - Another nested item
+- Third item
+
+1. First step
+2. Second step
+3. Third step
+
+* Source code
+
+#+begin_src python
+def fibonacci(n: int) -> int:
+    if n < 2:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+print(fibonacci(10))
+#+end_src
+
+#+begin_src emacs-lisp
+(setq inhibit-startup-screen t)
+
+(defun hello ()
+  (message "Hello from Org mode"))
+#+end_src
+
+* Table
+
+| Language | Type            | Notes            |
+|----------+-----------------+------------------|
+| C        | Systems         | Low-level        |
+| Python   | General purpose | High-level       |
+| Haskell  | Functional      | Strong type system |
+
+* Quote
+
+#+begin_quote
+Simple tools are often easier to understand, maintain, and trust.
+#+end_quote
+
+* Footnotes
+
+Org mode supports footnotes.[fn:1]
+
+[fn:1] This is a test footnote.
+
+* Mathematics
+
+Inline math:
+
+\(E = mc^2\)
+
+Display math:
+
+\[
+e^{i\pi} + 1 = 0
+\]
+
+Another display expression:
+
+\[
+\sum_{n=1}^{\infty} \frac{1}{n^2}
+= \frac{\pi^2}{6}
+\]
