@@ -6,7 +6,7 @@ description: "What if Isms are just different descriptions of the same movement?
 
 # Isms Convergence and the End of the World
 
-In this essay, I want to discuss some of the hidden implications of what I previously called the *[unfolding of the world](../minimalist_monotheism)*.
+*In this article, I want to discuss some of the hidden implications of what I previously called the [unfolding of the world](../minimalist_monotheism).*
 
 ## A True Prophecy from False Prophets
 

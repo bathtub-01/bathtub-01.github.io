@@ -7,17 +7,17 @@ title = 'Yukang Xie'
   [[menus.main]]
     name = 'About'
     pageRef = '/about'
-    weight = 10
+    weight = 30
 
   [[menus.main]]
     name = 'Technical Blog'
     pageRef = '/technical'
-    weight = 20
+    weight = 10
 
   [[menus.main]]
     name = 'General Posts'
     pageRef = '/posts'
-    weight = 30
+    weight = 20
 
 [markup]
   [markup.highlight]
@@ -25,6 +25,12 @@ title = 'Yukang Xie'
     style = 'github'
 
   [markup.goldmark]
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+
+      [markup.goldmark.parser.attribute]
+        block = true
+        title = true
     [markup.goldmark.extensions]
       [markup.goldmark.extensions.passthrough]
         enable = true

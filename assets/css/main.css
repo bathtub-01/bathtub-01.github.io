@@ -122,6 +122,45 @@ iframe {
   height: auto;
 }
 
+.portrait {
+  float: right;
+  width: 32%;
+  max-width: 220px;
+  margin: 0 0 1rem 1.5rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .portrait {
+    float: none;
+    display: block;
+    width: 60%;
+    max-width: none;
+    margin: 0 auto 1.5rem;
+  }
+}
+
+/* Markdown image widths */
+.img-40,
+.img-60,
+.img-80 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-40 {
+  width: 40%;
+}
+
+.img-60 {
+  width: 60%;
+}
+
+.img-80 {
+  width: 80%;
+}
+
 /* Tables */
 
 table {
