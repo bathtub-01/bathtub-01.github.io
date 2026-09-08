@@ -6,7 +6,7 @@ title: "About"
 
 My name is Yukang Xie (谢昱康). I am currently a PhD student at Heriot-Watt University, doing specialised processor design for lazy functional languages under the guidance of Prof. [Rob Stewart](https://www.macs.hw.ac.uk/~rs46/). Before this, I did my master's at Wuhan University.
 
-You can reach me at: yorkgank@gmail.com.
+This is my [CV](/doc/cv.pdf). You can reach me at: yorkgank@gmail.com.
 
 ****
 
