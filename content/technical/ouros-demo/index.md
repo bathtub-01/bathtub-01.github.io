@@ -5,7 +5,7 @@ date: 2026-10-30
 
 *I follow Lennart Augustsson's approach when he was presenting [MicroHs](https://github.com/augustss/MicroHs) --- give the demo first.*
 
-*This is a Haskell program running on a specialised processor, which is hosted on an FPGA and talks through UART port:*
+*This is a Haskell program running on a specialised processor, which is hosted on an FPGA and talks through a UART port:*
 
 ![fig1](demo.gif)
 
@@ -17,9 +17,9 @@ date: 2026-10-30
 
 My PhD study topic is about specialised hardware design for non-strict functional languages. This post talks about my recent work on adding IO capability into our Haskell processor and putting it on an FPGA, with a goal of convincing people that a Haskell processor is a cute idea.
 
-Specialised hardware for functional languages actually has a lot of interesting [histrory](https://haflang.github.io/history.html#event-functional-hardwarebr-1924-2024), especially in the 80s. This idea was  largely abandoned during the 90s, because of better software implementation and the evolving speed of standard CPUs at the time. 
+Specialised hardware for functional languages actually has a lot of interesting [history](https://haflang.github.io/history.html#event-functional-hardwarebr-1924-2024), especially in the 80s. This idea was  largely abandoned during the 90s, because of better software implementation and the evolving speed of standard CPUs at the time. 
 
-For reasons well known, specialised hardware is becoming interesting again. We try to investigate the possibility of this old idea in today's context. I will present the hardware architecture, IO handling, FPGA implementation results, and some limitation of this work.
+For reasons well known, domain-specific architectures are becoming interesting again. We try to investigate the possibility of this old idea in today's context. I will present the hardware architecture, IO handling, FPGA implementation results, and some limitations of this work.
 
 
 ## Architecture Overview
@@ -70,7 +70,7 @@ readAXIReg = primitive "IO.Read"
 
 They allow a Haskell program to read and write a set of registers. The compiler turns these primitives into special IO operations understood by the hardware. When an IO operation is ready, a dedicated IO unit performs the corresponding **AXI4-Lite** transaction, and the result goes back into the normal graph reduction pipeline. The operation only finishes after the bus transaction completes.
 
-The AXI4-Lite details are hidden from the Haskell program. From programmer's point of view, it is simply reading and writing registers, some of which are connected to the outside world. This is how we get actual side effects without a software runtime.
+The AXI4-Lite details are hidden from the Haskell program. From the programmer's point of view, it is simply reading and writing registers, some of which are connected to the outside world. This is how we get actual side effects without a software runtime.
 
 Currently the FPGA demo only uses a UART, with the Haskell program polling its registers. The same interface could also be connected to GPIOs, timers, a hardware random number generator, etc.
 
@@ -80,26 +80,52 @@ The FPGA board I am using is [AUP-ZU3](https://www.realdigital.org/hardware/aup-
 
 The current design runs at **100 MHz** on this board. Its resource usage is approximately **27% of LUTs, 7% of registers and 40% of BRAM**. The BRAM usage is mainly determined by the heap and code memories, so it can be adjusted by changing their sizes.
 
-What I find quite encouraging is that the logic footprint is roughly in the range of a small pipelined RISC-V core. Of course, this is not a like-for-like comparison, and Ouros has many limitations (some are listed below). Still, it is nice to see that we can have direct hardware support for graph reduction, automatic threading and garbage collection within a fairly small circuit budget. 
+What I find quite encouraging is that the logic footprint is roughly in the range of a small pipelined RISC-V core. Of course, this is not a like-for-like comparison, and Ouros has many limitations (see below). Still, it is nice to see that we can have direct hardware support for graph reduction, automatic threading and garbage collection within a fairly small circuit budget. 
 
 ## Limitations and Discussion
 
 - **Limited primitives:** Currently Ouros doesn't support `Float` or `Double`; its ALU also doesn't support division on `Int` yet. It wouldn't be very hard to add `Float` and more arithmetic operations, but `Double` can be harder due to encoding.
-- **Missing Haskell features:** I am totally relying on the MicroHs frontend to handle Haskell source, and haven't done any serious tests to check what language features are missing --- my experience suggests that basic stuffs like ADT, list comprehension and type class do work well (but I am not a decent Haskell programmer).
-- **No memory hierarchy:** A heap memory of 8K×288-bit words and a code memory of 4K×288-bit words seems to fit on the AUP-ZU3 board. A Haskell program with 1-2k lines can likely be hosted in the code memory --- but a more serious deisgn to utilise the big off-chip memories for programs with bigger heap footprint and code size might need considerable engineering effort to build.
-- **No dynamic program loading:** Currently a Haskell program needs to be pre-compiled with Chisel to generate memory initialisation files for the memory. Dynamic loading can possibly be achieved by adding some state machines for reset and injection.
-- **No interrupt in hardware:** We only have poll-based IO; how to properly add interrupt to the system can be an interesting question, but currently I don't have an answer to it.
+- **Missing Haskell features:** I am totally relying on the MicroHs frontend to handle Haskell source, and haven't done any serious tests to check what language features are missing --- my experience suggests that basic features such as ADTs, list comprehensions and type classes do work well (but I am not a decent Haskell programmer).
+- **No memory hierarchy:** A heap memory of 8K×288-bit words and a code memory of 4K×288-bit words seems to fit on the AUP-ZU3 board. A Haskell program with 1-2k lines can likely be hosted in the code memory --- but a more serious design to utilise the big off-chip memories for programs with bigger heap footprint and code size might need considerable engineering effort to build.
+- **No dynamic program loading:** Currently a Haskell program needs to be compiled into a memory image before generating the FPGA hardware. Dynamic loading might be achieved by adding some state machines for reset and program injection.
+- **No interrupt in hardware:** We only have polling-based IO; how to properly add interrupt to the system can be an interesting question, but currently I don't have an answer to it.
 
 An immediate question someone might ask is: *how does this machine compare to a PC running GHC-compiled code?* This is not easy to answer. If we only care about wall-clock speed, the FPGA demo is likely to be several times slower than a modern laptop. However, the implementation technology, circuit size, and power consumption model are all very different, making a fair comparison difficult. Also, since Ouros has a rather unusual memory organisation, we cannot simply assume that its performance would improve by several times if implemented as an ASIC using a 7nm process.
 
-Apart from being a cute toy, does this FPGA demo show any practical value? One possibility I can imagine is something like a Raspberry Pi, but with Haskell as its bare-metal programming language. Being able to run Haskell directly on a small embedded processor might be useful in certain scenarios. More interestingly, I think a native Haskell processor could open up some research possibilities that have been difficult to explore in practice. For example, what would a small operating system written entirely in Haskell look like?
+Apart from being a cute toy, does this FPGA demo show any practical value? One possibility I can imagine is something like a Raspberry Pi, but with Haskell as its bare-metal programming language. Being able to run Haskell directly on a small embedded processor might be useful in certain scenarios. More interestingly, I think a native Haskell processor could open up some research possibilities that have been difficult to explore in practice. For example, *what would a small operating system written entirely in Haskell look like?*
 
 ## Guidance on Reproducing the Demo {#guidance}
 
-There are several related repo for Ouros:
-- A fork on MicroHs:  https://github.com/bathtub-01/MicroHs (go to branch `real-world`).
-- Hardware implementation of Ouros: https://github.com/bathtub-01/ouros-chisel (go to branch `real-world`).
-- A cycle-accurate simulator of Ouros: https://github.com/bathtub-01/ouros-simulator (go to branch `real-world`).
+- There are four related repositories for Ouros:
+
+  - [MicroHs fork](https://github.com/bathtub-01/MicroHs) (branch `real-world`), for compiling Haskell programs.
+  - [Ouros Chisel](https://github.com/bathtub-01/ouros-chisel) (branch `real-world`), for generating the hardware implementation.
+  - [Ouros simulator](https://github.com/bathtub-01/ouros-simulator) (branch `real-world`), for trying programs without an FPGA.
+  - [Ouros AUP-ZU3 Vivado project](https://github.com/bathtub-01/ouros-aup-zu3-vivado), for building the FPGA demo.
+
+  To compile Haskell programs, first build our MicroHs fork from the repository root:
+
+  ```bash
+  cabal install --overwrite-policy=always
+  ```
+
+  The UART demo program lives in `ouros-uart-demo` in that repository; follow the README there to compile it. You can also try your own Haskell programs in the same way. Copy the compiled program image into `ouros-chisel/src/main/scala/benchmarks` or `ouros-simulator/src/hardware/ouros/benchmarks`, depending on whether you want to use the hardware implementation or the simulator.
+
+  For the **Chisel implementation**, run this from the `ouros-chisel` root:
+
+  ```bash
+  sbt "runMain Generate uart"
+  ```
+
+  This generates the SystemVerilog output under `fpga-gen/`.
+
+  For the **simulator**, the UART demo can be run directly from the `ouros-simulator` root:
+
+  ```bash
+  cargo run --release -- --mode=terminal --prog-name=UART
+  ```
+
+  To reproduce the demo on the **AUP-ZU3 FPGA board**, follow the README in the [Vivado repository](https://github.com/bathtub-01/ouros-aup-zu3-vivado). It covers the FPGA build and boot image generation.
 
 ## Reference
 [^1]: Xie, Yukang, Craig Ramsay, Robert Stewart, and Hans-Wolfgang Loidl. "Ouros: A Dataflow-Driven Processor for Lazy Functional Programming Languages." In 2026 IEEE 37th International Conference on Application-specific Systems, Architectures and Processors (ASAP), pp. 85-92. IEEE, 2026. doi: [10.1109/ASAP71856.2026.00023](https://doi.org/10.1109/ASAP71856.2026.00023).
