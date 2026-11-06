@@ -59,3 +59,13 @@
   {{ end }}
 
 <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+
+{{ if hugo.IsProduction }}
+<!-- Cloudflare Web Analytics -->
+<script
+  type="module"
+  src="https://static.cloudflareinsights.com/beacon.min.js"
+  data-cf-beacon='{"token": "ffdec5bdda974c99961f65378c10f185"}'>
+</script>
+<!-- End Cloudflare Web Analytics -->
+{{ end }}
